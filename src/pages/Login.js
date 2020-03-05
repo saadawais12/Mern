@@ -4,17 +4,21 @@ import logoImg from "../img/logo.png";
 import { Card, Logo, Form, Input, Button, Error } from "../Components/AuthForm";
 import axios from "axios";
 import { useAuth } from "../Context/auth";
-
+// import referer from "react-referer";
 function Login(props) {
-  const referer = props.location.state.referer || "/";
+  // console.log(props);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isError, setIsError] = useState(false);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const { setAuthTokens } = useAuth();
+  console.log("asd", props.location.state.referer);
+  const ref = props.location.state.referer || "/";
+
+  console.log(ref);
 
   function postLogin() {
-    const res = axios
+    axios
       .post(
         "https://ahmad-api.herokuapp.com/login",
         {
@@ -25,26 +29,29 @@ function Login(props) {
           header: { "Content-Type": "application/json" }
         }
       )
-
       .then(result => {
-        console.log(result.data.token);
         if (result.status === 200) {
           setAuthTokens(result.data);
+          console.log(result.status);
+
           setLoggedIn(true);
+          console.log(isLoggedIn);
+          console.log(result.data.token);
+          //console.log({ isLoggedIn });
+          //console.log(AuthContext.authtokens);
         } else {
           setIsError(true);
         }
       })
       .catch(e => {
         setIsError(true);
+        console.log(e);
       });
-    console.log(res);
   }
 
   if (isLoggedIn) {
-    return <Redirect to="admin" />;
+    return <Redirect to={ref} />;
   }
-
   return (
     <Card>
       <Logo src={logoImg} />

@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import logoImg from "../img/logo.png";
-import { Card, Logo, Form, Input, Button, Error } from "../Components/AuthForm";
+import { Card, Logo, Form, Input, Button } from "../Components/AuthForm";
 import axios from "axios";
 import { useAuth } from "../Context/auth";
+import referer from "react-referer";
 
 function Signup(props) {
+  //const referer = props.location.state.referer || "/";
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isError, setIsError] = useState(false);
   const [email, setEmail] = useState("");
@@ -35,31 +37,22 @@ function Signup(props) {
         console.log(token);
         if (result.status === 200) {
           setAuthTokens(result.data);
+          console.log(isLoggedIn);
 
           setLoggedIn(true);
+          console.log(isLoggedIn);
         } else {
           setIsError(true);
         }
       })
       .catch(e => {
-        axios
-          .get("https://ahmad-api.herokuapp.com/me", {
-            auth: token
-          })
-          .then(response => {
-            console.log("user already exists" + response);
-          })
-          .catch(e => {
-            console.log("fuckyou");
-          });
-
         console.log(e);
         setIsError(true);
       });
   }
 
   if (isLoggedIn) {
-    return <Redirect to="/home" />;
+    return <Redirect to="/" />;
   }
 
   return (
