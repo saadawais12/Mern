@@ -12,10 +12,9 @@ function Login(props) {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const { setAuthTokens } = useAuth();
-  console.log("asd", props.location.state.referer);
-  const ref = props.location.state.referer || "/";
-
-  console.log(ref);
+  const path = props.history.location.state.setprevPath;
+  console.log(path);
+  //const BrowserHistory = require('react-router/lib/BrowserHistory').default;
 
   function postLogin() {
     axios
@@ -50,7 +49,7 @@ function Login(props) {
   }
 
   if (isLoggedIn) {
-    return <Redirect to={ref} />;
+    return <Redirect to={path} />;
   }
   return (
     <Card>
