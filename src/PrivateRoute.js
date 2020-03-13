@@ -6,7 +6,8 @@ import referer from "react-referer";
 function PrivateRoute({ component: Component, ...rest }) {
   const { authtokens } = useAuth();
   const [prevPath, setprevPath] = useState("");
-
+  //const prevPath = "";
+  // const tok = localStorage.getItem("tokens");
   return (
     <Route
       {...rest}
@@ -18,7 +19,7 @@ function PrivateRoute({ component: Component, ...rest }) {
           <Redirect
             to={{
               pathname: "/login",
-              state: { prevPath, setprevPath : props.location.pathname }
+              state: { setprevPath: props.location.pathname }
             }}
           />
         );

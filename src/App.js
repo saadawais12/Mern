@@ -9,11 +9,17 @@ import Signup from "./pages/Signup";
 //export const myContext = React.createContext();
 function App(props) {
   const [authtokens, setAuthTokens] = useState();
-  console.log(authtokens);
+
   const setTokens = data => {
     localStorage.setItem("tokens", JSON.stringify(data));
     setAuthTokens(data);
   };
+  //console.log("next", localStorage.getItem("tokens"));
+  console.log("in app.js outside if", authtokens);
+  if (authtokens) {
+    console.log("in app.js inside if  exist", authtokens);
+    document.getElementById("loggedin").style.display = "none";
+  }
 
   return (
     <AuthContext.Provider value={{ authtokens, setAuthTokens: setTokens }}>
@@ -26,7 +32,7 @@ function App(props) {
             <li>
               <Link to="/Admin">Admin Page</Link>
             </li>
-            <li>
+            <li id="loggedin">
               <Link to="/login">Login</Link>
             </li>
           </ul>

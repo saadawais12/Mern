@@ -6,6 +6,7 @@ function Admin(props) {
   const { setAuthTokens } = useAuth();
 
   function logOut() {
+    document.getElementById("loggedin").style.display = "list-item";
     setAuthTokens();
   }
 

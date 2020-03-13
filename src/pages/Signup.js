@@ -46,7 +46,7 @@ function Signup(props) {
         }
       })
       .catch(e => {
-        console.log(e);
+        console.log("errorrroroororo", res);
         setIsError(true);
       });
   }

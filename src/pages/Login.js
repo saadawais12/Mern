@@ -7,13 +7,15 @@ import { useAuth } from "../Context/auth";
 // import referer from "react-referer";
 function Login(props) {
   // console.log(props);
+  //localStorage.clear();
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isError, setIsError] = useState(false);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const { setAuthTokens } = useAuth();
-  const path = props.history.location.state.setprevPath;
+  const path = props.history.location.state;
   console.log(path);
+
   //const BrowserHistory = require('react-router/lib/BrowserHistory').default;
 
   function postLogin() {
@@ -49,7 +51,13 @@ function Login(props) {
   }
 
   if (isLoggedIn) {
-    return <Redirect to={path} />;
+    if (!path) {
+      console.log(false);
+      return <Redirect to="/" />;
+    } else {
+      console.log(true);
+      return <Redirect to={path.setprevPath} />;
+    }
   }
   return (
     <Card>
