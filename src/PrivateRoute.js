@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useAuth } from "./Context/auth";
+import Admin from "./pages/Admin";
 import referer from "react-referer";
 
 function PrivateRoute({ component: Component, ...rest }) {
@@ -11,17 +12,19 @@ function PrivateRoute({ component: Component, ...rest }) {
   return (
     <Route
       {...rest}
-      render={props => {
+      render={(props) => {
         console.log("here", props.location);
         return authtokens ? (
-          <Component {...props} />
-        ) : (
+          <Admin/>
+        ) : 
+           (
           <Redirect
             to={{
               pathname: "/login",
-              state: { setprevPath: props.location.pathname }
+              
             }}
           />
+          
         );
       }}
     />

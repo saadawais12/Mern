@@ -4,6 +4,7 @@ import logoImg from "../img/logo.png";
 import { Card, Logo, Form, Input, Button, Error } from "../Components/AuthForm";
 import axios from "axios";
 import { useAuth } from "../Context/auth";
+import Admin from "./Admin";
 // import referer from "react-referer";
 function Login(props) {
   // console.log(props);
@@ -14,59 +15,60 @@ function Login(props) {
   const [password, setPassword] = useState("");
   const { setAuthTokens } = useAuth();
   const path = props.history.location.state;
-  console.log(path);
+  //console.log(localStorage.getItem("tokens"));
 
   //const BrowserHistory = require('react-router/lib/BrowserHistory').default;
 
   function postLogin() {
     axios
       .post(
-        "https://ahmad-api.herokuapp.com/login",
+        "https://cors-anywhere.herokuapp.com/https://clothing-webmern.herokuapp.com/api/users/login",
         {
           email: userName,
-          password: password
+          password: password,
         },
         {
-          header: { "Content-Type": "application/json" }
+          header: { "Content-Type": "application/json" },
         }
       )
-      .then(result => {
-        if (result.status === 200) {
+      .then((result) => {
+        if (result.status === 200 && result.data.role == "admin") {
+          console.log("helloworld");
           setAuthTokens(result.data);
-          console.log(result.status);
-
           setLoggedIn(true);
-          console.log(isLoggedIn);
-          console.log(result.data.token);
-          //console.log({ isLoggedIn });
-          //console.log(AuthContext.authtokens);
+          console.log("before redirect");
+          return <Redirect to="/Admin" />;
+          console.log("After redirect");
+
+          // console.log(isLoggedIn);
+          // console.log(result.data.token);
+          // console.log(result.data.role);
+          // console.log({ isLoggedIn });
+          // console.log(AuthContext.authtokens);
         } else {
           setIsError(true);
         }
       })
-      .catch(e => {
+      .catch((e) => {
         setIsError(true);
         console.log(e);
       });
   }
 
-  if (isLoggedIn) {
-    if (!path) {
-      console.log(false);
-      return <Redirect to="/" />;
-    } else {
-      console.log(true);
-      return <Redirect to={path.setprevPath} />;
-    }
-  }
-  return (
+  // if (isLoggedIn) {
+
+  //     return <Redirect to='/Admin' />;
+
+  // }
+  return isLoggedIn ? (
+    <Admin />
+  ) : (
     <Card>
-      <Logo src={logoImg} />
       <Form>
         <Input
           type="username"
           value={userName}
-          onChange={e => {
+          onChange={(e) => {
             setUserName(e.target.value);
           }}
           placeholder="email"
@@ -74,14 +76,14 @@ function Login(props) {
         <Input
           type="password"
           value={password}
-          onChange={e => {
+          onChange={(e) => {
             setPassword(e.target.value);
           }}
           placeholder="password"
         />
         <Button onClick={postLogin}>Sign In</Button>
       </Form>
-      <Link to="/signup">Don't have an account?</Link>
+
       {isError && (
         <Error>The username or password provided were incorrect!</Error>
       )}

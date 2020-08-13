@@ -20,19 +20,18 @@ function Signup(props) {
   function postSignup() {
     const res = axios
       .post(
-        "https://ahmad-api.herokuapp.com/signup",
+        "https://cors-anywhere.herokuapp.com/https://clothing-webmern.herokuapp.com/api/users/register",
         {
+          name: firstName,
           email: email,
-          password: password,
-          first_name: firstName,
-          last_name: lastName
+          password: password
         },
         {
-          headers: { "Content-Type": "application/json" }
+          headers: { "Content-Type": "application/json" },
         }
       )
 
-      .then(result => {
+      .then((result) => {
         token = result.data.token;
         console.log(token);
         if (result.status === 200) {
@@ -45,8 +44,8 @@ function Signup(props) {
           setIsError(true);
         }
       })
-      .catch(e => {
-        console.log("errorrroroororo", res);
+      .catch((e) => {
+        console.log("errorrroroororo", e);
         setIsError(true);
       });
   }
@@ -57,12 +56,20 @@ function Signup(props) {
 
   return (
     <Card>
-      <Logo src={logoImg} />
+      
       <Form>
+      <Input
+          type="name"
+          value={firstName}
+          onChange={(e) => {
+            setFirstname(e.target.value);
+          }}
+          placeholder="Name"
+        />
         <Input
           type="email"
           value={email}
-          onChange={e => {
+          onChange={(e) => {
             setEmail(e.target.value);
           }}
           placeholder="email"
@@ -70,27 +77,13 @@ function Signup(props) {
         <Input
           type="password"
           value={password}
-          onChange={e => {
+          onChange={(e) => {
             setPassword(e.target.value);
           }}
           placeholder="password"
         />
-        <Input
-          type="name"
-          value={firstName}
-          onChange={e => {
-            setFirstname(e.target.value);
-          }}
-          placeholder="Firstname"
-        />
-        <Input
-          type="name"
-          value={lastName}
-          onChange={e => {
-            setLastname(e.target.value);
-          }}
-          placeholder="lastName"
-        />
+        
+        
         <Button onClick={postSignup}>Sign up</Button>
       </Form>
     </Card>

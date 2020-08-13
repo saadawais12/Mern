@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+body .bgColor{
+  background-color: aqua ;
+}
+body .bg-light {
+  background-color: cornflowerblue;
+}
