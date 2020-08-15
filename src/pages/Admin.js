@@ -8,6 +8,7 @@ function Admin(props) {
   function logOut() {
     //document.getElementById("loggedin").style.display = "list-item";
     setAuthTokens();
+    localStorage.removeItem("tokens");
   }
 
   return (
