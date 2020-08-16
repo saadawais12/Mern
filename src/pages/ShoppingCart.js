@@ -57,8 +57,9 @@ function ShoppingCart(props) {
       .then((result) => {
         if (result.status === 200) {
           localStorage.removeItem("cart");
+            SetCart();
 
-          return <Redirect to="/" />;
+          return <Button href="/">Go shop again</Button>
 
           // console.log(isLoggedIn);
           // console.log(result.data.token);
@@ -76,6 +77,7 @@ function ShoppingCart(props) {
 
   return (
     <div>
+      
       <div>
         {cart.map((ca, index) => {
           return (
@@ -148,7 +150,7 @@ function ShoppingCart(props) {
             />
           </Form.Group>
 
-          <Button variant="primary" onClick={submitOrder} href="/">
+          <Button variant="primary" onClick={submitOrder} >
             Place Order
           </Button>
         </Form>

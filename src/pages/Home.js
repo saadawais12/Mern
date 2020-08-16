@@ -17,7 +17,7 @@ import CategoryDisplay from "./CategoryDisplay";
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 
 function Home(props) {
-  const [products, setproducts] = useState([]);
+  var [products, setproducts] = useState([]);
   const { setCart } = useCart();
   var [shopCart, setShopcart] = useState([]);
   const [token, settokens] = useState(localStorage.getItem("tokens"));
@@ -39,34 +39,8 @@ function Home(props) {
       });
   }
 
-  function editProduct()
-  {
-    return(<Modal.Dialog>
-      <Modal.Header closeButton>
-        <Modal.Title>Modal title</Modal.Title>
-      </Modal.Header>
-    
-      <Modal.Body>
-        <p>Modal body text goes here.</p>
-      </Modal.Body>
-    
-      <Modal.Footer>
-        <Button variant="secondary">Close</Button>
-        <Button variant="primary">Save changes</Button>
-      </Modal.Footer>
-    </Modal.Dialog>)
-
-   // axios.put("https://cors-anywhere.herokuapp.com/https://clothing-webmern.herokuapp.com/api/products/"+id,)
-     
-
-
-    
-
-  }
-  function deleteProduct(id)
-  {
-
-  }
+  function editProduct() {}
+  function deleteProduct(id) {}
 
   var i = 0;
 
@@ -76,7 +50,7 @@ function Home(props) {
   return (
     <div>
       <CardDeck>
-        {products.map((pro) => {
+        {products.map((pro, index) => {
           return (
             <Card>
               <a href={"/SingleProduct/" + pro._id}>
@@ -88,10 +62,39 @@ function Home(props) {
                 <Card.Subtitle>Price: {pro.price}Pkr</Card.Subtitle>
                 <p>{pro.description}</p>
                 {token ? (
-
                   <>
-                  <Button variant = "danger" href={"/Form/"+pro._id}>Edit</Button>
-                  <Button variant = "warning" onClick={deleteProduct(pro._id)}>Delete</Button>
+                    <Button variant="danger" href={"/form" + pro._id}>
+                      Edit
+                    </Button>
+                    <Button
+                      variant="warning"
+                      onClick={(e) => {
+                        axios
+                          .delete(
+                            "https://cors-anywhere.herokuapp.com/https://clothing-webmern.herokuapp.com/api/products/" +
+                              pro._id
+                          )
+                          .then((result) => {
+                            if (result.status === 200) {
+                              //setproducts(result.data);
+                              products.splice(index, 1);
+                              setproducts(products);
+                              console.log(products);
+                              alert("Product Deleted")
+                              getProducts();
+                              // console.log(AuthContext.authtokens);
+                            } else {
+                            }
+                          })
+                          .catch((e) => {
+                            console.log(e);
+                          });
+                      }}
+                      
+                    >
+                      
+                      Delete
+                    </Button>
                   </>
                 ) : (
                   <Button

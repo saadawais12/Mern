@@ -9,7 +9,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import CategoryDisplay from "./pages/CategoryDisplay";
 import ShoppingCart from "./pages/ShoppingCart";
-import form from "./pages/Form"
+import AddProduct from "./pages/AddProduct";
+import Form from "./pages/Form";
 import {
   Button,
   Navbar,
@@ -105,8 +106,15 @@ function App(props) {
                         setAuthTokens();
                         localStorage.removeItem("tokens");
                       }}
+                      href="/"
                     >
                       Logout
+                    </Nav.Link>
+                    <Nav.Link
+                    
+                      href="/AddProduct"
+                    >
+                      Add Product
                     </Nav.Link>
                   </>
                 ) : (
@@ -148,9 +156,10 @@ function App(props) {
             />
             <Route
               exact
-              path="/Form/:id"
-              render={(props) => <form />}
+              path="/Addproduct"
+              render={(props) => <AddProduct />}
             />
+            <Route exact path="/form" render={(props) => <Form />} />
             <PrivateRoute path="/Admin" component={Admin} />
           </Router>
         </div>

@@ -81,7 +81,7 @@ function Login(props) {
           }}
           placeholder="password"
         />
-        <Button onClick={postLogin}>Sign In</Button>
+        <Button onClick={postLogin} href = "/Admin">Sign In</Button>
       </Form>
 
       {isError && (
