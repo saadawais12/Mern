@@ -5,6 +5,9 @@ import axios from "axios";
 function CategoryDisplay(props) {
   const [category, setCategory] = useState(props.cat);
   const [products, setproducts] = useState([]);
+  var [shopCart, setShopcart] = useState(
+    JSON.parse([localStorage.getItem("cart")])
+  );
   const { setCart } = useCart();
   function addTocart() {}
   function getProducts() {
@@ -33,12 +36,20 @@ function CategoryDisplay(props) {
         {products.map((pro) => {
           return (
             <Card>
-              <Card.Img variant="top" src="holder.js/100px160" />
+              <Card.Img variant="top" src={require("../img/shirts.jpg")} />
               <Card.Body>
                 <Card.Title>{pro.title}</Card.Title>
                 <Card.Subtitle>Price: {pro.price}Pkr</Card.Subtitle>
                 <p>{pro.description}</p>
-                <Button variant="success" onClick={() => setCart(pro)}>
+                <Button
+                  variant="success"
+                  onClick={() => {
+                    console.log(shopCart);
+                    shopCart.push(pro);
+                    setShopcart(shopCart);
+                    localStorage.setItem("cart", JSON.stringify(shopCart));
+                  }}
+                >
                   Add to cart
                 </Button>
               </Card.Body>

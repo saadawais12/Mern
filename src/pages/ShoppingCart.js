@@ -5,14 +5,21 @@ import { ListGroup, Button, Form } from "react-bootstrap";
 import axios from "axios";
 
 function ShoppingCart(props) {
-  const [cart, SetCart] = useState(JSON.parse([localStorage.getItem("cart")]));
-  const { setCart } = useCart();
+  var [cart, SetCart] = useState([]);
+
   const [name, Setname] = useState();
   const [number, setNumber] = useState();
   const [address, setAddress] = useState();
   var [tPrice, setTprice] = useState();
   var [titlearr, setTitle] = useState([]);
-  var a = localStorage.getItem("cart");
+
+  var arr = JSON.parse([localStorage.getItem("cart")]);
+  cart = arr;
+  if (cart.length==0) {
+    console.log("hello")
+    alert("Cart is empty")
+    return <Redirect to="/"></Redirect>;
+  }
   // console.log(cart);
   //SetCart()
   function calPrice() {
@@ -21,13 +28,11 @@ function ShoppingCart(props) {
       p = p + parseInt(c.price, 10);
     });
     return p;
-    
   }
   function submitOrder() {
     cart.map((ca, index) => {
-    
-        titlearr.push(ca.title);
-      
+      titlearr.push(ca.title);
+
       setTitle(titlearr.concat(ca.title));
     });
     console.log(titlearr);
@@ -51,9 +56,8 @@ function ShoppingCart(props) {
       )
       .then((result) => {
         if (result.status === 200) {
-         localStorage.removeItem("cart");
+          localStorage.removeItem("cart");
 
-        
           return <Redirect to="/" />;
 
           // console.log(isLoggedIn);
@@ -89,12 +93,18 @@ function ShoppingCart(props) {
                 <Button
                   variant="danger"
                   onClick={() => {
-                    setCart(cart.splice(index, 1));
+                    console.log("Before Splice", cart);
+
                     // localStorage.removeItem("cart");
-                    localStorage.setItem("cart", JSON.stringify(cart));
+
                     calPrice();
-                    // setCart(cart);
+                    cart.splice(index, 1);
+                    SetCart(cart);
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    //localStorage.removeItem("cart");
+                    //setCart(cart);
                   }}
+                  // href="/Shoppingcart"
                 >
                   DeleteFrom cart
                 </Button>
@@ -138,7 +148,7 @@ function ShoppingCart(props) {
             />
           </Form.Group>
 
-          <Button variant="primary" onClick={submitOrder}>
+          <Button variant="primary" onClick={submitOrder} href="/">
             Place Order
           </Button>
         </Form>
