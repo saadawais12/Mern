@@ -5,9 +5,7 @@ import axios from "axios";
 function CategoryDisplay(props) {
   const [category, setCategory] = useState(props.cat);
   const [products, setproducts] = useState([]);
-  var [shopCart, setShopcart] = useState(
-    JSON.parse([localStorage.getItem("cart")])
-  );
+  var [shopCart, setShopcart] = useState([]);
   const { setCart } = useCart();
   function addTocart() {}
   function getProducts() {
@@ -36,7 +34,11 @@ function CategoryDisplay(props) {
         {products.map((pro) => {
           return (
             <Card>
-              <Card.Img variant="top" src={require("../img/shirts.jpg")} />
+              <Card.Img
+                variant="top"
+                style={{ width: 350, height: "auto" }}
+                src={require("../img/shirts.jpg")}
+              />
               <Card.Body>
                 <Card.Title>{pro.title}</Card.Title>
                 <Card.Subtitle>Price: {pro.price}Pkr</Card.Subtitle>
@@ -44,10 +46,21 @@ function CategoryDisplay(props) {
                 <Button
                   variant="success"
                   onClick={() => {
-                    console.log(shopCart);
-                    shopCart.push(pro);
-                    setShopcart(shopCart);
-                    localStorage.setItem("cart", JSON.stringify(shopCart));
+                    if (localStorage.getItem("cart") != null) {
+                      console.log("nullllllll");
+                      console.log(JSON.parse([localStorage.getItem("cart")]));
+                      var arr = JSON.parse([localStorage.getItem("cart")]);
+                      shopCart = arr;
+                      console.log(shopCart);
+                      shopCart.push(pro);
+                      setShopcart(shopCart);
+                      localStorage.setItem("cart", JSON.stringify(shopCart));
+                    } else {
+                      console.log(shopCart);
+                      shopCart.push(pro);
+                      setShopcart(shopCart);
+                      localStorage.setItem("cart", JSON.stringify(shopCart));
+                    }
                   }}
                 >
                   Add to cart

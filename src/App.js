@@ -10,7 +10,7 @@ import Signup from "./pages/Signup";
 import CategoryDisplay from "./pages/CategoryDisplay";
 import ShoppingCart from "./pages/ShoppingCart";
 import AddProduct from "./pages/AddProduct";
-import Form from "./pages/Form";
+import EditForm from "./pages/EditForm";
 import {
   Button,
   Navbar,
@@ -110,12 +110,7 @@ function App(props) {
                     >
                       Logout
                     </Nav.Link>
-                    <Nav.Link
-                    
-                      href="/AddProduct"
-                    >
-                      Add Product
-                    </Nav.Link>
+                    <Nav.Link href="/AddProduct">Add Product</Nav.Link>
                   </>
                 ) : (
                   <Nav.Link href="/login">Admin Login</Nav.Link>
@@ -137,7 +132,7 @@ function App(props) {
             <Route
               exact
               path="/categorypolo"
-              render={(props) => <CategoryDisplay {...props} cat={"polo"} />}
+              render={(props) => <CategoryDisplay {...props} cat={"Polo"} />}
             />
             <Route
               exact
@@ -159,7 +154,7 @@ function App(props) {
               path="/Addproduct"
               render={(props) => <AddProduct />}
             />
-            <Route exact path="/form" render={(props) => <Form />} />
+            <Route exact path="/form/:id" render={(props) => <EditForm />} />
             <PrivateRoute path="/Admin" component={Admin} />
           </Router>
         </div>

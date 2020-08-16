@@ -39,8 +39,7 @@ function Home(props) {
       });
   }
 
-  function editProduct() {}
-  function deleteProduct(id) {}
+  
 
   var i = 0;
 
@@ -63,7 +62,7 @@ function Home(props) {
                 <p>{pro.description}</p>
                 {token ? (
                   <>
-                    <Button variant="danger" href={"/form" + pro._id}>
+                    <Button variant="danger" href={"/form/" + pro._id}>
                       Edit
                     </Button>
                     <Button
